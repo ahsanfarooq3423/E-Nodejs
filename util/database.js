@@ -6,3 +6,5 @@ const sequelize = new Sequelize('node-complete', 'root', 'pioneer3423', {
 });
 
 module.exports = sequelize;
+
+
