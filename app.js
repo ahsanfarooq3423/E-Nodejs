@@ -38,8 +38,11 @@ app.use(shopRoutes);
 app.use(errorController.get404);
 
 //Associations
+
+// One to Many Relation Ship i.e. A user can create many products
 Product.belongsTo(User, { contraints : true, onDelete : 'CASCADE' });
 User.hasMany(Product);
+// One to One Bidrectional Relationship
 User.hasOne(Cart);
 Cart.belongsTo(User);
 //Many to many relation ship we have to define where 
@@ -48,11 +51,8 @@ Cart.belongsToMany(Product, {through : CartItem});
 Product.belongsToMany(Cart, {through  : CartItem});
 
 
-
-
-
-sequelize.sync({force : true})
-    //sync()
+sequelize.sync()
+    //sync({force : true})
     .then(result => {
         // console.log(res) 
         return User.findByPk(1)
@@ -64,7 +64,11 @@ sequelize.sync({force : true})
         return user
     })
     .then(user => {
-        // console.log(user);   
+        // console.log(user); 
+        return user.createCart();  
+        
+    })
+    .then(cart => {
         app.listen(3000);
     })
     .catch(err => console.log(err))
