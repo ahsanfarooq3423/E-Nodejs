@@ -20,7 +20,6 @@ class Product {
       dbOp = db.collection('products').updateOne({_id : this._id} , {$set : this})
     }
     else {
-     console.log('IN the else block')
      dbOp = db.collection('products').insertOne(this); 
     }
     return dbOp

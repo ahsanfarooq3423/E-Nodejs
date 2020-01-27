@@ -1,11 +1,11 @@
 const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
 
-const url = 'mongodb+srv://ahsanfarooq3423:mongodb8008@cluster0-wgwie.mongodb.net/shop?retryWrites=true&w=majority'
+const url = 'mongodb+srv://ahsanfarooq3423:mongodb8008@cluster0-wgwie.mongodb.net/test?retryWrites=true&w=majority'
 
 let _db;
 
-const client = new MongoClient(url);
+const client = new MongoClient(url, { useNewUrlParser: true , useUnifiedTopology : true});
 
 const mongoConnect = callback => {
     client.connect()

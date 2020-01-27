@@ -37,9 +37,11 @@ app.use(shopRoutes);
 app.use(errorController.get404);
 
 
-mongoConnect( () => {
+mongoConnect(() => {
     app.listen(3000);
 } )
+
+
 
 
 
