@@ -5,17 +5,20 @@ const bodyParser = require('body-parser');
 
 const errorController = require('./controllers/error');
 
+const User = require('./models/user');
+
+
 const mongoConnect = require('./util/database').mongoConnect;
 
 const app = express();
 
 app.use((req, res, next) => {
-    // User.findByPk(1)
-    //     .then(user => {
-    //         req.user = user
-    //         next()
-    //     })
-    //     .catch(err => console.log(err))
+    User.findById("5e2e56e7dc8114681c0ce8a5")
+        .then(user => {
+            console.log(user)
+            req.user = user
+        })
+        .catch(err => console.log(err))
     next()
 })
 
