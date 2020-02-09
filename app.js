@@ -1,45 +1,56 @@
 const path = require('path');
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const session = require('express-session');
 
-const session = require('express-session'); 
+const MongoDBStore = require('connect-mongodb-session')(session);
 
 const errorController = require('./controllers/error');
 
+const MONGODB_URI = 'mongodb://ahsan:mongodb8008@ds157276.mlab.com:57276/shop-app';
+
 const User = require('./models/user');
 
-
 const app = express();
+
+//Create a store
+const store = new MongoDBStore({
+    uri: MONGODB_URI,
+    collection: 'sessions'
+});
 
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//Create the middleware session
 app.use(
-    session({ secret : 'my secret', resave : false, saveUninitialized : false}) 
+    session({ secret: 'my secret',
+         resave: false,
+         saveUninitialized: false,
+         store: store })
 )
 
-app.set('view engine', 'ejs');
-app.set('views', 'views');
-
 app.use((req, res, next) => {
-    User.findById("5e3584d6329e767ae169d346")
+    if (!req.session.user) {
+        return next();
+    }
+    User.findById(req.session.user._id)
         .then(user => {
-            req.user = user
-            req.message = 'hello my name is ahsan farooq'
+            req.user = user;
             next()
         })
         .catch(err => console.log(err))
 })
 
+app.set('view engine', 'ejs');
+app.set('views', 'views');
+
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const authRoutes = require('./routes/auth');
-
-
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
@@ -48,24 +59,11 @@ app.use(authRoutes);
 app.use(errorController.get404);
 
 
-mongoose.connect('mongodb://ahsan:mongodb8008@ds157276.mlab.com:57276/shop-app', { useUnifiedTopology: true })
+mongoose.connect(MONGODB_URI, { useUnifiedTopology: true })
     .then(response => {
         console.log('CONNNECTED HUHU');
-        User.findOne()
-            .then(user => {
-                if (!user) {
-                    const user = new User({
-                        name : 'Ahsan',
-                        email : 'ahsan@test.com',
-                        cart : {
-                            items : []
-                        }
-                    })
-                    user.save()
-                }
-            })
         app.listen(3000);
     })
-    .catch(err => console.log(err))
+    .catch(err => console.log(err));
 
 
