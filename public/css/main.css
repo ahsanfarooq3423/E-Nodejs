@@ -234,3 +234,21 @@ form {
     display: none;
   }
 }
+
+
+.user-message {
+  margin: auto;
+  width: 90%;
+  border: 1px solid rgb(76, 76, 240);
+  background: #9dafe9;
+  border-radius: 3px;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.user-message--error {
+  border-color: red;
+  background: rgb(255, 176,176 );
+}
+
+
