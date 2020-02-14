@@ -4,7 +4,7 @@ const Order = require('../models/order');
 
 //DONE
 exports.getProducts = (req, res, next) => {
-  Product.find()
+  Product.find({userId : req.user._id})
     // .select('title -_id')
     // .populate('userId')
     .then(products => {
