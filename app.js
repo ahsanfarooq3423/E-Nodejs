@@ -40,7 +40,7 @@ app.use(
 
 app.use(csrfProtection);
 
-app.use(flash())
+app.use(flash());
 
 app.use((req, res, next) => {
     if (!req.session.user) {
@@ -63,6 +63,7 @@ app.use( (req, res, next) => {
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
+
 
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
