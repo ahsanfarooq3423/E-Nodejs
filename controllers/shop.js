@@ -14,7 +14,11 @@ exports.getProducts = (req, res, next) => {
         path: '/products'
       });
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    })
 };
 
 //DONE
@@ -29,7 +33,11 @@ exports.getProduct = (req, res, next) => {
         path: '/products'
       })
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    })
 }
 
 //DONE
@@ -42,7 +50,11 @@ exports.getIndex = (req, res, next) => {
         path: '/'
       });
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    })
 };
 
 //DONE
@@ -70,7 +82,11 @@ exports.postCart = (req, res, next) => {
     .then(result => {
       res.redirect('/cart')
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    })
 }
 
 //DONE
@@ -79,8 +95,11 @@ exports.postCartDeleteProduct = (req, res, next) => {
     .then(response => {
       res.redirect('/cart');
     })
-    .catch(err => console.log(err))
-
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    })
 }
 
 //DONE
@@ -114,7 +133,11 @@ exports.postOrder = (req, res, next) => {
     .then(response => {
       res.redirect('/orders')
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    })
 }
 
 //DONE
@@ -128,7 +151,11 @@ exports.getOrders = (req, res, next) => {
         pageTitle: 'Orders'
       })
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    })
 };
 
 

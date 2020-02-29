@@ -24,7 +24,13 @@ exports.getLogin = (req, res, next) => {
     res.render('auth/login', {
         path: '/login',
         pageTitle: 'Login',
-        errorMessage: message
+        errorMessage: message,
+        oldInput : {
+            email: '',
+            password : '',
+            confirmPassword : ''
+        },
+        validationErrors : []
     })
 }
 
@@ -90,8 +96,16 @@ exports.postLogin = (req, res, next) => {
                             res.redirect('/')
                         })
                     }
-                    req.flash('error', 'Invalid Email or Password');
-                    return res.redirect('/login')
+                    return res.status(422).render('auth/login', {
+                        path: '/login',
+                        pageTitle: 'Login',
+                        errorMessage: errors.array()[0].msg,
+                        oldInput : {
+                            email : email,
+                            password : password
+                        },
+                        validationErrors : []
+                    })
                 })
         })
         .catch(err => console.log(err));
@@ -251,4 +265,6 @@ exports.postNewPassword = (req, res, next) => {
             console.log(err)
         })
 }
+
+
 
