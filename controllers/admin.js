@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const fileHelper = reqiure('../util/file');
+const fileHelper = require('../util/file');
 
 const { validationResult } = require('express-validator/check');
 
